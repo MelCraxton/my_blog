@@ -6,6 +6,7 @@ from flask_wtf.file import FileField, FileAllowed
 # is a min or max length, EqualTo ensures confrim_password is the same as password
 from wtforms.validators import DataRequired, Length, Email, EqualTo, ValidationError
 from main.models import User
+from flask_ckeditor import CKEditorField
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
@@ -53,7 +54,7 @@ class UpdateAccountForm(FlaskForm):
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     introduction = TextAreaField('Introduction', validators=[DataRequired()])
-    content = TextAreaField('Content', validators=[DataRequired()])
+    content = CKEditorField('Content', validators=[DataRequired()])
     category = StringField('Category', validators=[DataRequired()])
     image_filename = FileField('Background Image', validators=[FileAllowed(['jpg', 'png'])])
     image_title = StringField('Image title', validators=[DataRequired()])

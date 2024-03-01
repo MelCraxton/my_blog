@@ -87,7 +87,7 @@
                                             {{ form.image_title(class="form-control form-control-lg") }}
                                         {% endif %}
                                     </div>
-                                    <div class="form-group col-lg-12" input type="text" class="form-control">
+                                    <div class="form-group col-lg-12 form-control" input type="text">
                                         {{ form.content.label(class="form-control-label")}}
                                         {% if form.content.errors %}
                                             {{ form.content(class="form-control form-control-lg is-invalid") }}
@@ -98,6 +98,8 @@
                                             </div>
                                         {% else %}
                                             {{ form.content(class="form-control form-control-lg") }}
+                                            {{ ckeditor.load() }}
+                                            {{ ckeditor.config(name='form.content') }}
                                         {% endif %}
                                     </div>
                                     <div class="form-group col-lg-12">
