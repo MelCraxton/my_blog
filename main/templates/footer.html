@@ -1,0 +1,81 @@
+<footer class="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-5 col-md-12">
+                    <div class="widget">
+                        <div class="footer-text">
+                            <a href="{{ url_for('home') }}"><img src="{{ url_for ('static', filename='images/site_identity/flogo.png') }}" alt="Unnest Logo" class="img-fluid"></a>
+                            <div class="social">
+                                <a href="https://www.linkedin.com/in/melissacraxton/" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin"></i></a>
+                                <a href="https://github.com/MelCraxton" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Github"><i class="fa fa-github"></i></a>
+                            </div>
+                        </div><!-- end footer-text -->
+                    </div><!-- end widget -->
+                </div><!-- end col -->
+
+                <div class="col-lg-3 col-md-12">
+                    <div class="widget clearfix">
+                        <div class="widget-title">
+                            <h3><span>Pages</span></h3>
+                        </div><!-- end widget-title -->
+
+                        <div class="category-widget">
+                            <ul>
+                                <li><a href="{{ url_for('home') }}">Home</a></li>
+                                <li><a href="#">About</a></li>
+                                <li><a href="#">All Posts</a></li>
+                                <li><a href="#">Contact</a></li>
+                                {% if current_user.is_authenticated %}
+                                    <li><a href="{{ url_for('new_post') }}">New Post</a></li>
+                                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                                    <li><a href="{{ url_for('account') }}">Account</a></li>
+                                {% else %}
+                                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                                    <li><a href="{{ url_for('register') }}">Register</a></li>
+                                {% endif %}
+                            </ul>
+                        </div><!-- end category -->
+                    </div><!-- end widget -->
+                </div><!-- end col -->
+
+                <div class="col-lg-4 col-md-12">
+                    <div class="widget clearfix">
+                        <div class="widget-title">
+                            <h3><span>Latest Posts</span></h3>
+                        </div><!-- end widget-title -->
+
+                        <div class="blog-list-widget">
+                            <div class="list-group">
+                                <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="w-100 justify-content-between">
+                                        <img src="upload/insta_09.jpeg" alt="" class="img-fluid float-left">
+                                        <h5 class="mb-1">A Beautiful Minimal Website Design</h5>
+                                        <small>12 Jan, 2016</small>
+                                    </div>
+                                </a>
+
+                                <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                    <div class="w-100 justify-content-between">
+                                        <img src="upload/insta_01.jpeg" alt="" class="img-fluid float-left">
+                                        <h5 class="mb-1">How to make best logo design</h5>
+                                        <small>11 Jan, 2016</small>
+                                    </div>
+                                </a>
+                            </div>
+                        </div><!-- end blog-list -->
+                    </div><!-- end widget -->
+                </div><!-- end col -->
+            </div><!-- end row -->
+        </div><!-- end container -->
+    </footer><!-- end footer -->
+</div><!-- end wrapper -->
+
+<!-- Core JavaScript
+================================================== -->
+<script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/tether.min.js') }}"></script>
+<script src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+<script src="{{ url_for('static', filename ='js/custom.js') }}"></script>
+
+</body>
+</html>

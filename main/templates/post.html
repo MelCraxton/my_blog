@@ -1,0 +1,59 @@
+{% include 'header.html' %}
+
+        <div class="page-title">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h1>{{ post.title }}</h1>
+                        <p class="lead">{{ post.category }}</p>
+                        <small class="text-muted">
+                            {{ post.date_posted.strftime('%Y-%m-%d') }}
+                        </small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="site-section">
+            <div class="container">
+                <div class="row">
+                    <div class="content col-lg-8">
+                        <div class="single-page clearfix">
+
+                            <p>{{ post.content }}</p>
+
+                            {% if post.author == current_user %}
+                                <div class="blog-bottom text-left">
+                                    <a href="{{ url_for('update_post', post_id = post.id) }}" class="btn btn-primary mt-2">Update</a>
+                                    <button type="button" class="btn btn-primary mt-2 ml-2" data-toggle="modal" data-target="#deleteModal">Delete</button>
+                                </div><!-- end bottom -->
+                            {% endif %}
+
+                        </div><!-- end single-page -->
+
+                        <!--Modal-->
+                        <div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+                          <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                              <div class="modal-header">
+                                <h5 class="modal-title" id="deleteModalLabel">Delete Post?</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                  <span aria-hidden="true">&times;</span>
+                                </button>
+                              </div>
+                              <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                <form action="{{ url_for('delete_post', post_id=post.id) }}" method="POST">
+                                    <input class="btn btn-primary" type="submit" value="Delete">
+                                </form>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!--End Modal-->
+                    </div><!-- end content -->
+                {% include 'sidebar.html' %}
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end section -->
+{% include 'footer.html' %}

@@ -1,0 +1,84 @@
+{% include 'header.html' %}
+
+        <div class="page-title">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12 text-center">
+                        <h1>Login</h1>
+                        <p class="lead">Log into your account?</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<section class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="content col-lg-12">
+                <div class="single-page clearfix">
+
+                    <hr class="invis1">
+
+                    <div class="row contact-row">
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <div class="form-wrapper">
+                                <h4>Login</h4>
+                                <p>Please login below</p>
+                                <form method="POST" action= '' class="row contact-form">
+                                    {{ form.hidden_tag() }}
+                                    <div class="form-group col-lg-6" input type="text" class="form-control">
+                                        {{ form.email.label(class="form-control-label")}}
+                                        {% if form.email.errors %}
+                                            {{ form.email(class="form-control form-control-lg is-invalid") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.email.errors%}
+                                                <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ form.email(class="form-control form-control-lg") }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group col-lg-6" input type="text" class="form-control">
+                                        {{ form.password.label(class="form-control-label")}}
+                                        {% if form.password.errors %}
+                                            {{ form.password(class="form-control form-control-lg is-invalid") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.password.errors %}
+                                                <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ form.password(class="form-control form-control-lg") }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group col-lg-12">
+                                        {{ form.submit(class="btn btn-primary")}}
+                                    </div>
+                                </form>
+                                <div class = "border-top pt-3">
+                                    <small class="form-check text-muted">
+                                        {{ form.remember(class="form-check-input ml-2") }}
+                                        {{ form.remember.label(class="form-check-label ml-2") }}
+                                    </small>
+                                </div>
+                                <div class = "border-top pt-3">
+                                    <small class="text-muted">
+                                        <a href="#'">Forgot Password?</a>
+                                    </small>
+                                </div>
+                                <div class = "border-top pt-3">
+                                    <small class="text-muted">
+                                    Need An Account? <a class="ml-2" href="{{ url_for('register') }}">Sign Up Now</a>
+                                    </small>
+                                </div>
+                            </div><!-- end form -->
+                        </div><!-- end col -->
+                        {% include 'sidebar.html' %}
+                    </div><!-- end row -->
+                </div><!-- end single-page -->
+            </div><!-- end content -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end section -->
+{% include 'footer.html' %}

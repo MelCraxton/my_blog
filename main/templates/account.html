@@ -1,0 +1,82 @@
+{% include 'header.html' %}
+
+<div class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>Account - {{ current_user.username.title() }}</h1>
+                <p class="lead">{{ current_user.email }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="content col-lg-12">
+                <div class="single-page clearfix">
+                    <hr class="invis1">
+                    <div class="row contact-row">
+                        <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                            <div class="form-wrapper">
+                                <div class="authorbox row">
+                                    <div class="col-md-3">
+                                        <img src="{{ image_file }}" alt="" class="rounded-circle img-fluid">
+                                    </div>
+                                    <div class="col-md-8">
+                                        <h4>Account Details - {{ current_user.username.title() }}</h4>
+                                        <p><b>{{ current_user.email }}</b></p>
+                                        <p>Update your username and password here.</p>
+                                    </div><!-- end col -->
+                                </div><!-- end row -->
+                                <form method="POST" action= '' enctype="multipart/form-data" class="row contact-form">
+                                    {{ form.hidden_tag() }}
+                                    <div class="form-group col-lg-12" input type="text" class="form-control">
+                                        {{ form.username.label(class="form-control-label")}}
+                                        {% if form.username.errors %}
+                                            {{ form.username(class="form-control form-control-lg is-invalid") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.username.errors%}
+                                                <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ form.username(class="form-control form-control-lg") }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group col-lg-12" input type="text" class="form-control">
+                                        {{ form.email.label(class="form-control-label") }}
+                                        {% if form.email.errors %}
+                                            {{ form.email(class="form-control form-control-lg is-invalid") }}
+                                            <div class="invalid-feedback">
+                                                {% for error in form.email.errors%}
+                                                <span>{{ error }}</span>
+                                                {% endfor %}
+                                            </div>
+                                        {% else %}
+                                            {{ form.email(class="form-control form-control-lg") }}
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group col-lg-12" input type="text" class="form-control">
+                                        {{ form.picture.label() }}
+                                        {{ form.picture(class="form-control-file") }}
+                                        {% if form.picture.errors %}
+                                            {% for error in form.picture.errors %}
+                                                <span class="text-danger">{{ error }}</span></br>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                    <div class="form-group col-lg-12 border-top pt-3">
+                                        {{ form.submit(class="btn btn-primary") }}
+                                    </div>
+                                </form>
+                            </div><!-- end form -->
+                        </div><!-- end col -->
+                        {% include 'sidebar.html' %}
+                    </div><!-- end row -->
+                </div><!-- end single-page -->
+            </div><!-- end content -->
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end section -->
+{% include 'footer.html' %}
