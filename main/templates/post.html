@@ -7,7 +7,8 @@
                         <h1>{{ post.title }}</h1>
                         <p class="lead">{{ post.category }}</p>
                         <small class="text-muted">
-                            {{ post.date_posted.strftime('%Y-%m-%d') }}
+                            {{ post.date_posted.strftime('%Y-%m-%d') }} <br>
+                            &nbsp;<span>By</span> <a href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username.title() }}</a>
                         </small>
                     </div>
                 </div>
@@ -20,7 +21,7 @@
                     <div class="content col-lg-8">
                         <div class="single-page clearfix">
 
-                            <p>{{ post.content }}</p>
+                            {{ post.content|safe }}
 
                             {% if post.author == current_user %}
                                 <div class="blog-bottom text-left">

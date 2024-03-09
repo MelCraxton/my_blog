@@ -9,6 +9,7 @@ from flask_login import LoginManager
 from flask_ckeditor import CKEditor
 # This is to send mail for forgot password
 
+
 app = Flask(__name__)
 SECRET_KEY = os.urandom(32)
 app.config['SECRET_KEY'] = SECRET_KEY
@@ -16,10 +17,10 @@ app.config['SECRET_KEY'] = SECRET_KEY
 
 # Construct the PostgreSQL URI
 # app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://postgres:Tinker01#@localhost/unnest'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///unnest.db'
+# app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///unnest.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///unnest_db.db'
 
 ckeditor = CKEditor(app)
-
 
 # Create an instance
 db=SQLAlchemy(app)

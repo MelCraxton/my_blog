@@ -32,9 +32,9 @@
 
     <div class="widget clearfix">
         <div class="widget-title">
-            <h3><span>Advertise</span></h3>
+            <h3><span>#OpenAI Generated</span></h3>
         </div><!-- end widget-title -->
-        <a href="#"><img src="{{ url_for('static', filename='upload/banner.jpg') }}" alt="" class="img-fluid"></a>
+        <a href="#"><img src="{{ url_for('static', filename='images/site_identity/unnest_cat.jpg') }}" alt="Unnest Cat" class="img-fluid"></a>
     </div><!-- end widget -->
 
     <div class="widget clearfix">
@@ -68,10 +68,9 @@
 
         <div class="category-widget">
             <ul>
-                <li><a href="#">Concepts</a></li>
-                <li><a href="#">SQL</a></li>
-                <li><a href="#">Python</a></li>
-                <li><a href="#">Other</a></li>
+                {% for category in categories %}
+                <li><a href="{{ url_for('category', category=category) }}">{{ category }}</a></li>
+                {% endfor %}
             </ul>
         </div><!-- end category -->
     </div><!-- end widget -->
@@ -83,29 +82,15 @@
 
         <div class="blog-list-widget">
             <div class="list-group">
-                <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                {% for post in posts.items[0:3] %} {# Iterate over paginated posts #}
+                <a href="{{ url_for('post', post_id=post.id) }}" class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="w-100 justify-content-between">
-                        <img src="upload/insta_09.jpeg" alt="" class="img-fluid float-left">
-                        <h5 class="mb-1">A Beautiful Minimal Website Design</h5>
-                        <small>12 Jan, 2016</small>
+                        <img src="{{ url_for ('static', filename=post.image_filename) }}" alt="{{ post.title }}" class="img-fluid float-left">
+                        <h5 class="mb-1">{{ post.title }}</h5>
+                        <small>{{ post.date_posted.strftime('%d %b, %Y') }}</small>
                     </div>
                 </a>
-
-                <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="w-100 justify-content-between">
-                        <img src="upload/insta_01.jpeg" alt="" class="img-fluid float-left">
-                        <h5 class="mb-1">How to make best typography</h5>
-                        <small>11 Jan, 2016</small>
-                    </div>
-                </a>
-
-                <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
-                    <div class="w-100 last-item justify-content-between">
-                        <img src="upload/insta_03.jpeg" alt="" class="img-fluid float-left">
-                        <h5 class="mb-1">Welcome to the board, we are Matilda</h5>
-                        <small>07 Jan, 2016</small>
-                    </div>
-                </a>
+                {% endfor %}
             </div>
         </div><!-- end blog-list -->
     </div><!-- end widget -->
@@ -116,10 +101,9 @@
         </div><!-- end widget-title -->
 
         <div class="tag-widget">
-            <a href="#">Python</a>
-            <a href="#">SQL</a>
-            <a href="#">Concepts</a>
-            <a href="#">Other</a>
+            {% for category in categories %}
+                <a href="{{ url_for('category', category=category) }}">{{ category }}</a>
+            {% endfor %}
         </div><!-- end tag-widget -->
     </div><!-- end widget -->
 </div><!-- end sidebar -->

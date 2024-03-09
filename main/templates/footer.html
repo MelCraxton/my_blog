@@ -5,6 +5,7 @@
                     <div class="widget">
                         <div class="footer-text">
                             <a href="{{ url_for('home') }}"><img src="{{ url_for ('static', filename='images/site_identity/flogo.png') }}" alt="Unnest Logo" class="img-fluid"></a>
+                            <p> This is a personal blog for my own amusement. Welcome friend, lets chat.</p>
                             <div class="social">
                                 <a href="https://www.linkedin.com/in/melissacraxton/" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Linkedin"><i class="fa fa-linkedin"></i></a>
                                 <a href="https://github.com/MelCraxton" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Github"><i class="fa fa-github"></i></a>
@@ -23,7 +24,6 @@
                             <ul>
                                 <li><a href="{{ url_for('home') }}">Home</a></li>
                                 <li><a href="#">About</a></li>
-                                <li><a href="#">All Posts</a></li>
                                 <li><a href="#">Contact</a></li>
                                 {% if current_user.is_authenticated %}
                                     <li><a href="{{ url_for('new_post') }}">New Post</a></li>
@@ -38,6 +38,7 @@
                     </div><!-- end widget -->
                 </div><!-- end col -->
 
+
                 <div class="col-lg-4 col-md-12">
                     <div class="widget clearfix">
                         <div class="widget-title">
@@ -46,21 +47,15 @@
 
                         <div class="blog-list-widget">
                             <div class="list-group">
-                                <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
+                                {% for post in posts.items[0:3] %} {# Iterate over paginated posts #}
+                                <a href="{{ url_for('post', post_id=post.id) }}" class="list-group-item list-group-item-action flex-column align-items-start">
                                     <div class="w-100 justify-content-between">
-                                        <img src="upload/insta_09.jpeg" alt="" class="img-fluid float-left">
-                                        <h5 class="mb-1">A Beautiful Minimal Website Design</h5>
-                                        <small>12 Jan, 2016</small>
+                                        <img src="{{ url_for ('static', filename=post.image_filename) }}" alt="{{ post.title }}" class="img-fluid float-left">
+                                        <h5 class="mb-1">{{ post.title }}</h5>
+                                        <small>{{ post.date_posted.strftime('%d %b, %Y') }}</small>
                                     </div>
                                 </a>
-
-                                <a href="single.html" class="list-group-item list-group-item-action flex-column align-items-start">
-                                    <div class="w-100 justify-content-between">
-                                        <img src="upload/insta_01.jpeg" alt="" class="img-fluid float-left">
-                                        <h5 class="mb-1">How to make best logo design</h5>
-                                        <small>11 Jan, 2016</small>
-                                    </div>
-                                </a>
+                                {% endfor %}
                             </div>
                         </div><!-- end blog-list -->
                     </div><!-- end widget -->

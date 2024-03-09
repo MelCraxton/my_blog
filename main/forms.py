@@ -37,6 +37,7 @@ class UpdateAccountForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(), Length(min=2, max=20)])
     email = StringField('Email', validators=[DataRequired(), Email()])
     picture = FileField('Update Profile Picture', validators=[FileAllowed(['jpg', 'png'])])
+    about_author = TextAreaField('About', validators=[DataRequired()])
     submit = SubmitField('Update')
 
     def validate_username(self, username):
@@ -51,13 +52,19 @@ class UpdateAccountForm(FlaskForm):
             if user:
                 raise ValidationError('That email is taken, please choose a different one.')
 
+def validate_category(form, field):
+    valid_categories = ['Python', 'SQL', 'Concepts', 'Other']
+    if field.data not in valid_categories:
+        raise ValidationError('Category must be Python, SQL, Concepts or Other.')
+
+
 class PostForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired()])
     introduction = TextAreaField('Introduction', validators=[DataRequired()])
-    content = CKEditorField('Content', validators=[DataRequired()])
-    category = StringField('Category', validators=[DataRequired()])
-    image_filename = FileField('Background Image', validators=[FileAllowed(['jpg', 'png'])])
-    image_title = StringField('Image title', validators=[DataRequired()])
+    content = CKEditorField('Post Content', validators=[DataRequired()])
+    category = StringField('Category', validators=[DataRequired(), validate_category])
+    image_filename = FileField('Background Image', validators=[FileAllowed(['jpg','png'])])
+    image_title = StringField('Image title')
     submit = SubmitField('Post')
 
 

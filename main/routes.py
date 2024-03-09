@@ -7,14 +7,51 @@ import secrets
 import os
 from PIL import Image
 from datetime import datetime
+import random
 
 
+# Context processor to make categories available to all templates
+@app.context_processor
+def inject_categories():
+    page = request.args.get('page', default=1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+    categories = db.session.query(Post.category).distinct().all()
+    categories = [category[0] for category in categories]
+    return dict(categories=categories, posts=posts)
+
+
+# Context processor to make posts available to all templates
+@app.context_processor
+def inject_posts():
+    page = request.args.get('page', default=1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+    return dict(posts=posts)
 
 @app.route('/')
 @app.route('/home')
 def home():
-    posts = Post.query.all()
+    page = request.args.get('page', default=1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
     return render_template('index.html', title='Home', posts=posts)
+
+
+@app.route('/user/<string:username>')
+def user_posts(username):
+    page = request.args.get('page', default=1, type=int)
+    user = User.query.filter_by(username=username).first_or_404()
+    posts = Post.query.filter_by(author=user).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+    title = f'Author - {user.username.lower()}'
+    image_file = url_for('static', filename='images/profile_pics/' + user.image_file)
+    about_author = user.about_author
+    return render_template('author.html', title=title, posts=posts, user=user, image_file=image_file, about_author=about_author)
+
+
+@app.route('/category/<string:category>')
+def category(category):
+    page = request.args.get('page', default=1, type=int)
+    posts = Post.query.filter_by(category=category).order_by(Post.date_posted.desc()).paginate(page=page, per_page=5)
+    title = f'{category}'  # Use the input parameter directly for the title
+    return render_template('category.html', title=title, posts=posts, category=category)
 
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -92,12 +129,14 @@ def account():
             current_user.image_file = picture_file
         current_user.username = form.username.data
         current_user.email = form.email.data
+        current_user.about_author = form.about_author.data
         db.session.commit()
         flash('Your account has been updated!', 'success')
         return redirect(url_for('account'))
     elif request.method == 'GET':
         form.username.data = current_user.username
         form.email.data = current_user.email
+        form.about_author.data = current_user.about_author
     image_file = url_for('static', filename='images/profile_pics/' + current_user.image_file)
     return render_template('account.html', title='Account', image_file=image_file, form=form)
 
@@ -108,7 +147,7 @@ def save_background_picture(form_picture):
     picture_fn = random_hex + f_ext
     picture_path = os.path.join(app.root_path, 'static/images/background_images', picture_fn)
 
-    output_size = (1000,654)
+    output_size = (800, 654)
     i = Image.open(form_picture)
     i.thumbnail(output_size)
     i.save(picture_path)
@@ -132,6 +171,7 @@ def new_post():
                     image_title=form.image_title.data)
         db.session.add(post)
         db.session.commit()
+
         flash('Your post has been created!', 'success')
         return redirect(url_for('home'))
     return render_template('create_post.html', title='New post',
@@ -182,7 +222,3 @@ def delete_post(post_id):
     db.session.commit()
     flash('Your post has been deleted!', 'success')
     return redirect(url_for('home'))
-
-# @app.route('/category/<str:category>')
-# def post(category):
-#     category = Post.query.get_or_404(category)

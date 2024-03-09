@@ -1,0 +1,73 @@
+{% include 'header.html' %}
+
+<div class="page-title">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h1>{{ category }} </h1>
+                <p>All {{category }} posts</p>
+            </div>
+        </div>
+    </div>
+</div>
+<section class="site-section">
+    <div class="container">
+        <div class="row">
+            <div class="content col-lg-8">
+
+                {% for post in posts %}
+
+
+                <div class="blog-box row list-style clearfix">
+                    <div class="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+                        <div class="blog-media">
+                            <a href="{{ url_for('post', post_id=post.id) }}" title="{{ post.title }}"><img src="{{ url_for ('static', filename=post.image_filename) }}" alt="{{ post.title }}" class="img-fluid"></a>
+                        </div>
+                        <!-- end blog-media -->
+                    </div><!-- end leftside -->
+
+                    <div class="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+                        <div class="blog-desc">
+                            <span class="cat-title"><a href="{{ url_for('category', category=category) }}">{{ post.category }}</a></span>
+                            <h4><a href="{{ url_for('post', post_id=post.id) }}" title="{{ post.title }}">{{ post.title }}</a></h4>
+                            <div class="blog-meta">
+                                <span>Posted on</span> {{  post.date_posted.strftime('%Y-%m-%d') }} -&nbsp;<span>By</span> <a href="{{ url_for('user_posts', username=post.author.username) }}">{{ post.author.username.title() }}</a>
+                            </div>
+                            <!-- end meta -->
+
+                            <p>{{ post.introduction }} </p>
+
+                            <div class="post-bottom clearfix">
+                                <div class="pull-left">
+                                    <a href="{{ url_for('post', post_id=post.id) }}" class="readmore">Continue reading</a>
+                                </div><!-- end left -->
+                            </div><!-- end bottom -->
+                        </div><!-- end desc -->
+                    </div><!-- end right-side -->
+                </div><!-- end blog-box -->
+                {% endfor %}
+
+                <!--pagination-->
+                <div class="row justify-content-end">
+                    <div class="col-md-12">
+                        {% for page_num in posts.iter_pages(left_edge=1, right_edge=1, left_current=1, right_current=2) %}
+                            {% if page_num %}
+                                {% if posts.page == page_num %}
+                                    <a class="btn btn-secondary mb-2 ml-2" href="{{ url_for('category', category=category, page=page_num) }}">{{ page_num }}</a>
+                                {% else %}
+                                    <a class="btn btn-outline-secondary mb-2 ml-2" href="{{ url_for('category', category=category, page=page_num) }}">{{ page_num }}</a>
+                                {% endif %}
+                            {% else %}
+                            {% endif %}
+                        {% endfor %}
+                    </div>
+                </div>
+                <!--end pagination-->
+            </div><!-- end col -->
+
+            {% include 'sidebar.html' %}
+        </div><!-- end row -->
+    </div><!-- end container -->
+</section><!-- end section -->
+
+{% include 'footer.html' %}

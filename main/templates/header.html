@@ -72,7 +72,6 @@
                 <div class="category-widget">
                     <ul>
                         <li><a href="#">About</a></li>
-                        <li><a href="#">All Posts</a></li>
                         <li><a href="#">Contact</a></li>
                         {% if current_user.is_authenticated %}
                             <li><a href="{{ url_for('new_post') }}">New Post</a></li>
@@ -93,10 +92,9 @@
 
                 <div class="category-widget">
                     <ul>
-                        <li><a href="#">Concepts</a></li>
-                        <li><a href="#">SQL</a></li>
-                        <li><a href="#">Python</a></li>
-                        <li><a href="#">Other</a></li>
+                        {% for category in categories %}
+                            <li><a href="{{ url_for('category', category=category) }}">{{ category }}</a></li>
+                        {% endfor %}
                     </ul>
                 </div><!-- end category -->
             </div><!-- end widget -->
@@ -115,9 +113,6 @@
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="page-about.html">About</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="blog-category-01.html">All Posts</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link" href="page-contact.html">Contact</a>
